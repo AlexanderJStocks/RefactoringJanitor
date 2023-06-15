@@ -28,24 +28,6 @@ Copy code
 java -jar javajanitor.jar --path [path/to/project]
 Replace [path/to/project] with the path to your Java project. Java Janitor will analyze your code and generate reports in the reports directory.
 
-Gradle
-To integrate Java Janitor into your Gradle build, add the following to your build.gradle file:
-
-bash
-Copy code
-plugins {
-    id 'org.javajanitor' version '1.0.0'
-}
-Then run the following command to analyze your code and generate reports:
-
-Copy code
-gradle janitor
-
-
-Copy code
-mvn verify
-IDE Plugins
-Java Janitor also provides plugins for popular IDEs, including Eclipse and IntelliJ IDEA. These plugins provide real-time analysis of your code as you write it, and generate reports and recommendations for improving code quality.
 
 Reporting
 Java Janitor generates reports on code quality metric, including code complexity, maintainability, and adherence to coding standards and best practices. Reports can be viewed in a variety of formats, including HTML, XML, and CSV.
