@@ -36,7 +36,7 @@ Copy code
 plugins {
     id 'org.javajanitor' version '1.0.0'
 }
-Then run the following command to analyze your code and generate reports:
+Then run the following command to analyze your code and generate reports: 
 
 Copy code
 gradle janitor
