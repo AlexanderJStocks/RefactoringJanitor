@@ -38,7 +38,7 @@ class GithubAPI(
 
     private var accessToken = ""
     private val client = HttpClient(Apache)
-    private lateinit var ghRepository : GHRepository
+    private lateinit var ghRepository: GHRepository
 
     private fun buildRequest(
         url: String, method: HttpMethod, body: String? = null
@@ -247,17 +247,17 @@ class GithubAPI(
         return ref.getObject().sha
     }
 
-    fun getTree(commitSha : String): GHTree {
+    fun getTree(commitSha: String): GHTree {
         refreshTokenIfNeeded()
         return ghRepository.getTree(commitSha)
     }
 
-    private fun getGHRepository() : GHRepository {
+    private fun getGHRepository(): GHRepository {
         val github = Utils.createGitHubClient(accessToken)
         return github.getRepository(repository.full_name)
     }
 
-    fun createTree() : GHTreeBuilder {
+    fun createTree(): GHTreeBuilder {
         refreshTokenIfNeeded()
         return ghRepository.createTree()
     }

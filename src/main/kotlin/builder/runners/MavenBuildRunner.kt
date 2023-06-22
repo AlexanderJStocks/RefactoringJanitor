@@ -8,9 +8,9 @@ import java.io.InputStreamReader
 class MavenBuildRunner(private val projectLocation: String) : BuildRunner {
     override fun buildProject(): Boolean {
         var isSuccessful = false
-        println(projectLocation)
         try {
-            val mavenHome = "C:\\Users\\Stock\\Downloads\\apache-maven-3.9.2-bin\\apache-maven-3.9.2" // Specify the path to your Maven installation
+            val mavenHome =
+                "C:\\Users\\Stock\\Downloads\\apache-maven-3.9.2-bin\\apache-maven-3.9.2" // Specify the path to your Maven installation
 
             val command = "cmd /c ${mavenHome}\\bin\\mvn.cmd verify"
             val process = Runtime.getRuntime().exec(command, null, File(projectLocation))

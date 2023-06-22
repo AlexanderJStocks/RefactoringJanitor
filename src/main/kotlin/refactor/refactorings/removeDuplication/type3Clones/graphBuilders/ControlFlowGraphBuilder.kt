@@ -11,7 +11,9 @@ import org.jgrapht.util.SupplierUtil
 
 class ControlFlowGraphBuilder(private val method: MethodDeclaration) {
     fun buildCFG(): Graph<Node, DefaultEdge> {
-        val cfg = DefaultDirectedGraph(SupplierUtil.createSupplier(Node::class.java), SupplierUtil.createSupplier(DefaultEdge::class.java), false)
+        val cfg = DefaultDirectedGraph(
+            SupplierUtil.createSupplier(Node::class.java), SupplierUtil.createSupplier(DefaultEdge::class.java), false
+        )
 
         val stmts = method.body.orElse(null)?.statements ?: NodeList()
         createNodes(cfg, stmts)
@@ -59,7 +61,8 @@ class ControlFlowGraphBuilder(private val method: MethodDeclaration) {
                 cfg.addEdge(bodyStmts.last(), nextStmt)
             } else if (currentStmt is TryStmt) {
                 val tryStmts = NodeList<Statement>(currentStmt.tryBlock)
-                val finallyStmts = if (currentStmt.finallyBlock.isPresent) NodeList<Statement>(currentStmt.finallyBlock.get()) else NodeList<Statement>()
+                val finallyStmts =
+                    if (currentStmt.finallyBlock.isPresent) NodeList<Statement>(currentStmt.finallyBlock.get()) else NodeList<Statement>()
 
                 connectNodes(cfg, tryStmts)
                 connectNodes(cfg, finallyStmts)
@@ -81,6 +84,7 @@ class ControlFlowGraphBuilder(private val method: MethodDeclaration) {
             is IfStmt -> {
                 NodeList(stmt.thenStmt).also { if (stmt.elseStmt.isPresent) it.add(stmt.elseStmt.get()) }
             }
+
             is WhileStmt -> {
                 if (stmt.body is BlockStmt) {
                     (stmt.body as BlockStmt).statements
@@ -88,6 +92,7 @@ class ControlFlowGraphBuilder(private val method: MethodDeclaration) {
                     NodeList<Statement>(stmt.body)
                 }
             }
+
             is ForStmt -> {
                 if (stmt.body is BlockStmt) {
                     (stmt.body as BlockStmt).statements
@@ -95,9 +100,11 @@ class ControlFlowGraphBuilder(private val method: MethodDeclaration) {
                     NodeList<Statement>(stmt.body)
                 }
             }
+
             is TryStmt -> {
                 NodeList<Statement>(stmt.tryBlock).also { if (stmt.finallyBlock.isPresent) it.add(stmt.finallyBlock.get()) }
             }
+
             else -> NodeList<Statement>()
         }
     }

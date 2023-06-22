@@ -8,10 +8,9 @@ import java.io.File
 class GradleBuildRunner(private val projectLocation: String) : BuildRunner {
     override fun buildProject(): Boolean {
         var isSuccessful = false
-
         try {
             // First, do a 'gradlew clean install'
-            var builder = ProcessBuilder("gradlew.bat", "clean" , "install")
+            var builder = ProcessBuilder("gradlew.bat", "clean", "install")
             builder.directory(File(projectLocation))
             var process = builder.start()
 

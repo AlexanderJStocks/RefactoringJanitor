@@ -34,15 +34,14 @@ class ReplaceForLoopsWithForEach : Refactoring {
                         forLoop.compare.ifPresent { compare ->
                             val iterableExpr = extractIterableExpression(compare, indexName)
                             // check if the index is used inside the loop body
-                            val indexUsedInsideBody = forLoop.body.findAll(NameExpr::class.java).any { it.nameAsString == indexName }
+                            val indexUsedInsideBody =
+                                forLoop.body.findAll(NameExpr::class.java).any { it.nameAsString == indexName }
                             if (iterableExpr != null && !indexUsedInsideBody) {
                                 val forEachVariable = init.clone()
                                 forEachVariable.variables[0].removeInitializer()
 
                                 val forEachStmt = ForEachStmt(
-                                    forEachVariable,
-                                    iterableExpr,
-                                    forLoop.body.clone()
+                                    forEachVariable, iterableExpr, forLoop.body.clone()
                                 )
 
                                 forLoop.replace(forEachStmt)
@@ -53,7 +52,6 @@ class ReplaceForLoopsWithForEach : Refactoring {
             }
         }
     }
-
 
 
     private fun extractIterableExpression(compare: Expression, indexName: String): Expression? {

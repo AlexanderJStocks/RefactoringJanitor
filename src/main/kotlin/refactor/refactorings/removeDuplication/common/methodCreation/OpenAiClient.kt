@@ -14,7 +14,7 @@ import kotlinx.serialization.Serializable
 class OpenAiClient {
     private val client = HttpClient(Apache)
     private val baseUrl = "https://api.openai.com"
-    private val accessToken = "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"
+    private val accessToken = "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"
 
     @Serializable
     data class OpenAIPrompt(val model: String, val messages: List<OpenAIMessage>)
@@ -46,7 +46,10 @@ class OpenAiClient {
     suspend fun askGptForMethodNames(methodBody: String): List<String> {
         val apiUrl = "/v1/chat/completions"
         val systemMessage = OpenAIMessage("system", "You are a helpful assistant.")
-        val userMessage = OpenAIMessage("user", "Given the following method body: $methodBody. Please generate three potential method names, only respond with the three words that are the method names and nothing else, separated by spaces, with no introduction to your response or punctuation or numbers.")
+        val userMessage = OpenAIMessage(
+            "user",
+            "Given the following method body: $methodBody. Please generate three potential method names, only respond with the three words that are the method names and nothing else, separated by spaces, with no introduction to your response or punctuation or numbers."
+        )
         val messageBody = Gson().toJson(OpenAIPrompt("gpt-3.5-turbo", listOf(systemMessage, userMessage)))
         val request = buildRequest(apiUrl, HttpMethod.Post, accessToken, messageBody)
 
@@ -79,7 +82,4 @@ class OpenAiClient {
 
         return emptyList()
     }
-
-
-
 }

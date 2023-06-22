@@ -19,7 +19,7 @@ class RemoveEmptyElse : Refactoring {
 
     private fun removeEmptyElseBlocks(cu: CompilationUnit) {
         cu.findAll(IfStmt::class.java).forEach { ifStmt ->
-            ifStmt.elseStmt.ifPresentOrElse({ elseStmt : Statement ->
+            ifStmt.elseStmt.ifPresentOrElse({ elseStmt: Statement ->
                 if (elseStmt.isBlockStmt && elseStmt.asBlockStmt().statements.isEmpty()) {
                     ifStmt.removeElseStmt()
                 }

@@ -24,8 +24,7 @@ class ReplaceConcatenationWithStringBuilder : Refactoring {
         val binaryExprs = cu.findAll(BinaryExpr::class.java)
 
         binaryExprs.filter { it.operator == BinaryExpr.Operator.PLUS }
-            .filter { it.left is StringLiteralExpr || it.right is StringLiteralExpr }
-            .forEach { binaryExpr ->
+            .filter { it.left is StringLiteralExpr || it.right is StringLiteralExpr }.forEach { binaryExpr ->
                 if (countConcatenation(binaryExpr) > 1) {
                     val stringBuilderExpr = createStringBuilderExpression(binaryExpr)
                     binaryExpr.replace(stringBuilderExpr)

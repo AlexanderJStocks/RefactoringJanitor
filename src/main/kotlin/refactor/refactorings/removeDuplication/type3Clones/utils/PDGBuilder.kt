@@ -13,15 +13,19 @@ class PDGBuilder(private val method: MethodDeclaration) {
     fun buildPDG(): Graph<Node, DefaultEdge> {
         val cfgBuilder = ControlFlowGraphBuilder(method)
         val cfg = cfgBuilder.buildCFG()
-        
+
         val dfgBuilder = DataFlowGraphBuilder(method)
         val dfg = dfgBuilder.buildDFG()
 
         return mergeControlAndDataFlowGraphs(cfg, dfg)
     }
 
-    private fun mergeControlAndDataFlowGraphs(cfg: Graph<Node, DefaultEdge>, dfg: Graph<Node, DefaultEdge>): Graph<Node, DefaultEdge> {
-        val pdg = DefaultDirectedGraph(SupplierUtil.createSupplier(Node::class.java), SupplierUtil.createSupplier(DefaultEdge::class.java), false)
+    private fun mergeControlAndDataFlowGraphs(
+        cfg: Graph<Node, DefaultEdge>, dfg: Graph<Node, DefaultEdge>
+    ): Graph<Node, DefaultEdge> {
+        val pdg = DefaultDirectedGraph(
+            SupplierUtil.createSupplier(Node::class.java), SupplierUtil.createSupplier(DefaultEdge::class.java), false
+        )
 
         // Add vertices to the PDG
         for (vertex in cfg.vertexSet()) {

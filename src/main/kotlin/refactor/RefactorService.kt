@@ -1,6 +1,5 @@
 package refactor
 
-import builder.BuildRunner
 import com.github.javaparser.ParserConfiguration
 import com.github.javaparser.StaticJavaParser
 import com.github.javaparser.ast.CompilationUnit
@@ -14,6 +13,7 @@ import org.kohsuke.github.*
 import refactor.refactorings.collapseNestedIfStatements.CollapseNestedIfStatements
 import refactor.refactorings.reformat.Reformat
 import refactor.refactorings.removeDuplication.RemoveDuplication
+import refactor.refactorings.removeEmptyElse.RemoveEmptyElse
 import refactor.refactorings.removeRedundantTernaryOperators.RemoveRedundantTernaryOperators
 import refactor.refactorings.replaceConcatentationWithStringBuilder.ReplaceConcatenationWithStringBuilder
 import refactor.refactorings.replaceForWithForEach.ReplaceForLoopsWithForEach
@@ -55,7 +55,6 @@ class RefactorService(private val projectRoot: Path) {
     }
 
     private fun parseJavaFiles(): List<CompilationUnit> {
-
         return Files.walk(projectRoot).filter { path -> path.toString().endsWith(".java") }.map { path ->
             try {
                 StaticJavaParser.parse(path)
@@ -158,12 +157,12 @@ class RefactorService(private val projectRoot: Path) {
 
     private fun loadRefactorings(): List<Refactoring> {
         return listOf(
-            //RecursionToIterationProcessor(),
             Reformat(),
             ReplaceConcatenationWithStringBuilder(),
             CollapseNestedIfStatements(),
             RemoveRedundantTernaryOperators(),
             ReplaceForLoopsWithForEach(),
+            RemoveEmptyElse(),
             RemoveDuplication()
         )
     }

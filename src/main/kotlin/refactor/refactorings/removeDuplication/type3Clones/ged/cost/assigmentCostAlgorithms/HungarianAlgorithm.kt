@@ -1,6 +1,5 @@
 package refactor.refactorings.removeDuplication.type3Clones.ged.cost.assigmentCostAlgorithms
 
-
 object HungarianAlgorithm {
     fun execute(costMatrix: Array<IntArray>): Int {
         val n = costMatrix.size

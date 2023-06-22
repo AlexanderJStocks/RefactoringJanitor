@@ -15,11 +15,9 @@ class Type1CloneFinder : BaseCloneFinder() {
                 MethodKey(
                     parameters = method.method.parameters.map { param ->
                         ParameterKey(
-                            param.nameAsString,
-                            param.typeAsString
+                            param.nameAsString, param.typeAsString
                         )
-                    }.toSet(),
-                    body = method.normalisedMethod.body
+                    }.toSet(), body = method.normalisedMethod.body
                 )
             }.values.toList()
         }.map { it.map { method -> method.method } }

@@ -91,8 +91,7 @@ class RecursionIdentifier {
         var current: Node? = this
         while (current != null) {
             if (type.isInstance(current)) {
-                @Suppress("UNCHECKED_CAST")
-                return current as T
+                @Suppress("UNCHECKED_CAST") return current as T
             }
             current = current.parentNode.orElse(null)
         }

@@ -50,7 +50,6 @@ class MethodCreator(cu: CompilationUnit) {
         genericMethod.setPublic(false)
 
 
-
         // Replace the cloned code in each method with a call to the new generic method.
         cloneGroup.forEach { method ->
             val methodCall = MethodCallExpr()
@@ -69,13 +68,14 @@ class MethodCreator(cu: CompilationUnit) {
         }
 
         // Add the new generic method to the appropriate class or enum in the CompilationUnit.
-        val targetClassOrInterface = methodWithSmallestBody.findAncestor(ClassOrInterfaceDeclaration::class.java).orElse(null)
+        val targetClassOrInterface =
+            methodWithSmallestBody.findAncestor(ClassOrInterfaceDeclaration::class.java).orElse(null)
         val targetEnum = methodWithSmallestBody.findAncestor(EnumDeclaration::class.java).orElse(null)
 
         when {
             targetClassOrInterface != null -> targetClassOrInterface.addMember(genericMethod)
             targetEnum != null -> targetEnum.addMember(genericMethod)
-            else -> throw IllegalStateException("No class, interface or enum found in the compilation unit")
+            else -> error("No class, interface or enum found in the compilation unit")
         }
 
         return genericMethod

@@ -41,8 +41,6 @@ class RemoveDuplication : Refactoring {
                 .filter { it.body.isPresent && it.body.get().statements.isNonEmpty }.toMutableList()
 
             cuCounter++
-            println("CU $cuCounter/${cus.size}")
-
             var cloneFinderCounter = 0
             cloneFinders.forEach { (finder, extractor) ->
                 val clones = finder.find(methods).filter { it.size > 1 }
@@ -92,7 +90,6 @@ class RemoveDuplication : Refactoring {
                 }
 
                 cloneFinderCounter++
-                println("Clone finder $cloneFinderCounter/${cloneFinders.size}")
             }
         }
         println("Total clones found: $totalClones")

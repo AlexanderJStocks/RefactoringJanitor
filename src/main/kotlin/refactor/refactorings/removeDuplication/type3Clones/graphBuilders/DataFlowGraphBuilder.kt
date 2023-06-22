@@ -15,7 +15,9 @@ class DataFlowGraphBuilder(private val method: MethodDeclaration) {
         val cfgBuilder = ControlFlowGraphBuilder(method)
         val cfg = cfgBuilder.buildCFG()
 
-        val dfg = DefaultDirectedGraph(SupplierUtil.createSupplier(Node::class.java), SupplierUtil.createSupplier(DefaultEdge::class.java), false)
+        val dfg = DefaultDirectedGraph(
+            SupplierUtil.createSupplier(Node::class.java), SupplierUtil.createSupplier(DefaultEdge::class.java), false
+        )
 
         createNodes(dfg, cfg)
         connectNodes(dfg, cfg)

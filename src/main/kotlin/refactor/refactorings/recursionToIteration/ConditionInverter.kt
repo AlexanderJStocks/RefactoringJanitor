@@ -29,8 +29,14 @@ class ConditionInverter {
                 BinaryExpr.Operator.GREATER -> BinaryExpr(left, right, BinaryExpr.Operator.LESS)
                 BinaryExpr.Operator.LESS_EQUALS -> BinaryExpr(left, right, BinaryExpr.Operator.GREATER_EQUALS)
                 BinaryExpr.Operator.GREATER_EQUALS -> BinaryExpr(left, right, BinaryExpr.Operator.LESS_EQUALS)
-                BinaryExpr.Operator.AND -> BinaryExpr(inverseCondition(left), inverseCondition(right), BinaryExpr.Operator.OR)
-                BinaryExpr.Operator.OR -> BinaryExpr(inverseCondition(left), inverseCondition(right), BinaryExpr.Operator.AND)
+                BinaryExpr.Operator.AND -> BinaryExpr(
+                    inverseCondition(left), inverseCondition(right), BinaryExpr.Operator.OR
+                )
+
+                BinaryExpr.Operator.OR -> BinaryExpr(
+                    inverseCondition(left), inverseCondition(right), BinaryExpr.Operator.AND
+                )
+
                 else -> throw UnsupportedOperationException("Unsupported binary operator for condition inversion: $operator")
             }
         }

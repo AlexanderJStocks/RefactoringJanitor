@@ -49,8 +49,13 @@ class GithubUtils(private val githubAPI: GithubAPI) {
         val repoName = githubAPI.cloneRepo(
             "src/main/resources"
         )
-        val repoPath =
-            Paths.get("C:\\Users\\Stock\\IdeaProjects\\JavaJanitor\\src\\main\\resources\\${repoName?.removeSuffix(".zip")}")
+        val repoPath = Paths.get(
+            "C:\\Users\\Stock\\Documents\\GitHub\\RefactoringJanitor\\src\\main\\resources\\${
+                repoName?.removeSuffix(
+                    ".zip"
+                )
+            }"
+        )
         return Pair(
             repoPath, defaultBranch.name
         )
@@ -61,7 +66,7 @@ class GithubUtils(private val githubAPI: GithubAPI) {
     ) {
         val prTitle = "Refactoring Janitor"
         val prBody = buildString {
-            append("This pull request contains $numberOfModifiedFiles refactored files. ")
+            append("This pull request contains $numberOfModifiedFiles refactorings. ")
             refactoringCount.forEach { (refactoring, count) ->
                 append("$refactoring, $count files. ")
             }

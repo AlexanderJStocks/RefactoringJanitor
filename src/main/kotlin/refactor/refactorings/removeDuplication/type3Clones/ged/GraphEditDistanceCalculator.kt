@@ -6,7 +6,6 @@ import org.jgrapht.graph.DefaultEdge
 import refactor.refactorings.removeDuplication.type3Clones.ged.cost.EdgeCost
 import refactor.refactorings.removeDuplication.type3Clones.ged.cost.VertexCost
 import refactor.refactorings.removeDuplication.type3Clones.ged.cost.assigmentCostAlgorithms.AuctionAssignment
-import refactor.refactorings.removeDuplication.type3Clones.ged.cost.assigmentCostAlgorithms.MunkresAlgorithm
 
 class GraphEditDistanceCalculator(
     private val pdg1: Graph<Node, DefaultEdge>,
@@ -17,7 +16,8 @@ class GraphEditDistanceCalculator(
     fun computeSimilarity(): Double {
         val ged = computeGED()
 
-        val normalizationFactor = pdg1.vertexSet().size + pdg2.vertexSet().size + pdg1.edgeSet().size + pdg2.edgeSet().size
+        val normalizationFactor =
+            pdg1.vertexSet().size + pdg2.vertexSet().size + pdg1.edgeSet().size + pdg2.edgeSet().size
         return 1 - (ged.toDouble() / normalizationFactor)
     }
 
@@ -53,9 +53,7 @@ class GraphEditDistanceCalculator(
     }
 
     private fun calculateEdgeCosts(
-        pdg1Vertices: List<Node>,
-        pdg2Vertices: List<Node>,
-        costMatrix: Array<IntArray>
+        pdg1Vertices: List<Node>, pdg2Vertices: List<Node>, costMatrix: Array<IntArray>
     ): Int {
         val edgeCosts = mutableListOf<Int>()
         for (i in pdg1Vertices.indices) {
@@ -76,11 +74,15 @@ class GraphEditDistanceCalculator(
                             val source2 = pdg2.getEdgeSource(edge2)
                             val target2 = pdg2.getEdgeTarget(edge2)
 
-                            if (costMatrix[pdg1Vertices.indexOf(source1)][pdg2Vertices.indexOf(source2)] < Int.MAX_VALUE &&
-                                costMatrix[pdg1Vertices.indexOf(target1)][pdg2Vertices.indexOf(target2)] < Int.MAX_VALUE
+                            if (costMatrix[pdg1Vertices.indexOf(source1)][pdg2Vertices.indexOf(source2)] < Int.MAX_VALUE && costMatrix[pdg1Vertices.indexOf(
+                                    target1
+                                )][pdg2Vertices.indexOf(target2)] < Int.MAX_VALUE
                             ) {
                                 // Add a similarity measure to the edge cost calculation
-                                val vertexSimilarity = 1.0 - (costMatrix[pdg1Vertices.indexOf(source1)][pdg2Vertices.indexOf(source2)] + costMatrix[pdg1Vertices.indexOf(target1)][pdg2Vertices.indexOf(target2)]).toDouble() / 2
+                                val vertexSimilarity =
+                                    1.0 - (costMatrix[pdg1Vertices.indexOf(source1)][pdg2Vertices.indexOf(source2)] + costMatrix[pdg1Vertices.indexOf(
+                                        target1
+                                    )][pdg2Vertices.indexOf(target2)]).toDouble() / 2
                                 minCost = minOf(minCost, (edgeCost.calculate(edge1, edge2) * vertexSimilarity).toInt())
                             }
                         }

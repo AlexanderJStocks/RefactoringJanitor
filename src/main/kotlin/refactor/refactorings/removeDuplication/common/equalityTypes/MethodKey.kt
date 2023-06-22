@@ -4,6 +4,5 @@ import com.github.javaparser.ast.stmt.BlockStmt
 import java.util.*
 
 data class MethodKey(
-    val parameters: Set<ParameterKey>,
-    val body: Optional<BlockStmt>
+    val parameters: Set<ParameterKey>, val body: Optional<BlockStmt>
 )

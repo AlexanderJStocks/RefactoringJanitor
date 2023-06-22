@@ -30,11 +30,10 @@ class CollapseNestedIfStatements : Refactoring {
 
                 // Only perform the refactoring if the block contains a single statement
                 // that is an IfStmt and does not have an else statement.
-                if (blockStmt.statements.size == 1
-                    && blockStmt.statements[0] is IfStmt
-                    && !(blockStmt.statements[0] as IfStmt).elseStmt.isPresent) {
+                if (blockStmt.statements.size == 1 && blockStmt.statements[0] is IfStmt && !(blockStmt.statements[0] as IfStmt).elseStmt.isPresent) {
                     val nestedIfStmt = blockStmt.statements[0] as IfStmt
-                    val combinedCondition = BinaryExpr(ifStmt.condition, nestedIfStmt.condition, BinaryExpr.Operator.AND)
+                    val combinedCondition =
+                        BinaryExpr(ifStmt.condition, nestedIfStmt.condition, BinaryExpr.Operator.AND)
                     ifStmt.condition = combinedCondition
                     ifStmt.thenStmt = nestedIfStmt.thenStmt
                 }

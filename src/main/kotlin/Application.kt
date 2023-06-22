@@ -42,7 +42,7 @@ fun Application.listenToGithubApp() {
                 return@post
             }
 
-            if (payload is PushEvent && payload.pusher.name == "refactoringjanitor[bot]") {
+            if (payload is PushEvent && payload.pusher.name == "refactoringjanitor1[bot]") {
                 // Event pushed by the bot itself. Ignoring.
                 call.respond(HttpStatusCode.OK)
                 return@post

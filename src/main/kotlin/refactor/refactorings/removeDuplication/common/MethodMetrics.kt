@@ -2,7 +2,7 @@ package refactor.refactorings.removeDuplication.common
 
 import com.github.javaparser.ast.body.MethodDeclaration
 import metric.Model.Metric
-import metric.methods.MethodMetrics
+import metric.MethodMetrics
 
 class MethodMetrics {
 

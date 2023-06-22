@@ -23,15 +23,18 @@ object Type4CloneElementReplacer {
                             val stmt = toWhileStmt(node)
                             node.parentNode.get().replace(stmt)
                         }
+
                         is IfStmt, is SwitchStmt, is ConditionalExpr -> {
                             val ifStmt = toIfStmt(node)
                             node.replace(ifStmt)
                         }
                     }
                 } catch (e: Exception) {
+                    println(e)
                 }
             }
         } catch (e: Exception) {
+            println(e)
         }
 
         return Type2CloneElementReplacer.replace(method)
@@ -126,19 +129,13 @@ object Type4CloneElementReplacer {
                 val (varName, nullType) = getVariableInfo(parentNode.get())
 
                 val ifStmt = IfStmt(
-                    node.condition.clone(),
-                    BlockStmt().addStatement(
+                    node.condition.clone(), BlockStmt().addStatement(
                         AssignExpr(
-                            NameExpr(varName),
-                            node.thenExpr.clone(),
-                            AssignExpr.Operator.ASSIGN
+                            NameExpr(varName), node.thenExpr.clone(), AssignExpr.Operator.ASSIGN
                         )
-                    ),
-                    BlockStmt().addStatement(
+                    ), BlockStmt().addStatement(
                         AssignExpr(
-                            NameExpr(varName),
-                            node.elseExpr.clone(),
-                            AssignExpr.Operator.ASSIGN
+                            NameExpr(varName), node.elseExpr.clone(), AssignExpr.Operator.ASSIGN
                         )
                     )
                 )
@@ -163,9 +160,7 @@ object Type4CloneElementReplacer {
                 // For SwitchStmt, convert it into nested IfStmts.
                 val entries = node.entries
 
-                if (entries.isEmpty()) {
-                    throw IllegalArgumentException("Empty SwitchStmt cannot be converted to IfStmt.")
-                }
+                require(entries.isNotEmpty()) { "Empty SwitchStmt cannot be converted to IfStmt." }
 
                 var ifStmt: IfStmt? = null
                 var defaultStmt: Statement? = null
@@ -175,20 +170,18 @@ object Type4CloneElementReplacer {
                         val condition =
                             BinaryExpr(node.selector.clone(), entry.labels.first.get(), BinaryExpr.Operator.EQUALS)
 
-                        val stmt =
-                            BlockStmt().also { block ->
-                                entry.statements.filter { it !is BreakStmt }.forEach { block.addStatement(it.clone()) }
-                            }
+                        val stmt = BlockStmt().also { block ->
+                            entry.statements.filter { it !is BreakStmt }.forEach { block.addStatement(it.clone()) }
+                        }
                         ifStmt = if (ifStmt == null) {
                             IfStmt(condition, stmt, defaultStmt)
                         } else {
                             IfStmt(condition, stmt, ifStmt)
                         }
                     } else {
-                        defaultStmt =
-                            BlockStmt().also { block ->
-                                entry.statements.filter { it !is BreakStmt }.forEach { block.addStatement(it.clone()) }
-                            }
+                        defaultStmt = BlockStmt().also { block ->
+                            entry.statements.filter { it !is BreakStmt }.forEach { block.addStatement(it.clone()) }
+                        }
                     }
                 }
                 ifStmt ?: throw IllegalArgumentException("Failed to convert SwitchStmt to IfStmt.")
